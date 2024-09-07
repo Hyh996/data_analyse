@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # 指定默认字体，'SimHei'为黑体
 plt.rcParams['font.sans-serif'] = ['SimHei']
