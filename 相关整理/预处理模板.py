@@ -1,3 +1,4 @@
+# 这是汇总整理的数据预处理模板，主要是整理了一些预处理经常用到的内容，建立目的主要是在需要进行数据预处理的时候直接复制改改就能用
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
