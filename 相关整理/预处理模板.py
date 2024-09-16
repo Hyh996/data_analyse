@@ -32,6 +32,12 @@ print(data[data.duplicated()])
 # # 去除异常值
 # data = data.loc[data['要处理的那一列']<设置限制值]
 
+## 转置
+## 转置前先设置好列索引
+# data.set_index('指标', inplace=True)
+## 转置并将转置后的行标签转为第一列
+# data = data.T.rename_axis("年份").reset_index()
+
 # 保存清洗后的数据 csv，同理使用to_excel保存.xlsx
 data.to_csv('对应文件的路径/保存文件名.csv', index=False)
 
