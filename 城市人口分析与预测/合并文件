@@ -1,0 +1,26 @@
+import pandas as pd
+
+# 合并数据文件（简单粗暴的合并）
+dir = r"路径\A赛数据 - 副本"
+result = pd.DataFrame({'年份':[],'城市名称':[]})
+# 一共要合并文件夹内7个文件
+for i in range(1, 8):
+    path = f"{dir}\\data_{i}.xlsx"
+    data = pd.read_excel(path)
+    result = pd.merge(result, data, on=['年份', '城市名称'], how='outer', suffixes=('_left', '_right'))
+  
+# # 定义一个函数来合并列值（这个部分本意是要将作为数据合并为一行，但是不知道为什么传成了列表，暂时先放着，后面解决）
+# def combine_values(x):
+#     return [val for val in x if pd.notna(val)]
+#
+# # 应用函数并使用agg进行分组合并
+# result = result.groupby(['年份', '城市名称']).agg(combine_values).reset_index()
+#
+# # 将结果转换为单个值
+# for col in ['employeesNumber','towner_disposableIcome']:
+#     result[col] = result[col].apply(lambda x: x[0] if x else None)
+
+print(result)
+
+# 保存清洗后的数据 csv
+result.to_csv(r'路径\城市人口分析与预测汇总.csv', index=False)
