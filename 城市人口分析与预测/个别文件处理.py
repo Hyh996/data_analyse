@@ -31,6 +31,13 @@ for i in keys:
 print(f'循环合并后的数据如下：\n{result}')
 result.to_excel(r'路径\就业信息.xlsx', index=False, freeze_panes=(1,0))
 
+# 重命名列
+# 修改年龄结构.xlsx
+df = pd.read_excel(r'路径\年龄结构.xlsx')
+result = df.rename(columns={'城市': '城市名称'})
+print(result)
+result.to_excel(r'路径\年龄结构.xlsx', index=False, freeze_panes=(1,0))
+
 # 非平衡面板转平衡面板并合并多个sheet表
 # 修改生活水平.xlsx
 dfs = pd.read_excel(r'路径\生活水平.xlsx', sheet_name=None,header=1)
