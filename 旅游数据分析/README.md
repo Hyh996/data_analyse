@@ -405,7 +405,7 @@ _以plot为例_
 
 这里是直接百度就可以找到的文章,其中就介绍了plot的具体用法
 
-(参考文档)[https://blog.csdn.net/m0_46478042/article/details/137197294]
+[参考文档](https://blog.csdn.net/m0_46478042/article/details/137197294)
 
 ```python
 plt.plot(x, y, fmt, **kwargs)
