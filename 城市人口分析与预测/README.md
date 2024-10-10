@@ -4,18 +4,23 @@
 做一次赛题练一练，看看最近数据挖掘学的怎么样，看看还有哪些不足
 
 分析思路
-[图片]
+
+![image](https://github.com/user-attachments/assets/0294aa57-1b4a-4268-b639-a14ddefe8ef6)
+
 打算先做A题看一下，主要就是检验一下近段时间的学习成果
 
 ---
-数据预处理
-文件合并
-首先因为数据分散在多个数据文件，先进行合并方便后续操作，由于文件较少，所以直接打开文件查看即可
+# 数据预处理
+## 文件合并
+> 首先因为数据分散在多个数据文件，先进行合并方便后续操作，由于文件较少，所以直接打开文件查看即可
+
 通过直接观察可以了解到excel数据文件中大部分数据文件可以直接用于合并，但是生活水平和就业信息两个数据文件中存在多个表格，而且生活水平和工资水平都是非平衡面板数据，都需要进行处理
-个别文件处理
-参考文档
+
+### 个别文件处理
+> 参考文档
 https://blog.csdn.net/weixin_43392794/article/details/129452041
 https://blog.csdn.net/SeizeeveryDay/article/details/114696467
+```python
 # 用于转换个别非面板数据并将excel中多个sheet合并
 import pandas as pd
 # 非面板数据转面板数据
@@ -76,14 +81,19 @@ for i in keys:
     result = pd.merge(result, df1, on=['年份', '城市名称'], how='outer', suffixes=('_left', '_right'))
 print(f'循环合并后的数据如下：\n{result}')
 result.to_excel(r'路径\生活水平.xlsx', index=False, freeze_panes=(1,0))
+```
 pd.merge中suffixes参数用于处理两个DataFrame中存在相同名称的列的情况
-部分修改后效果
-[图片]
-[图片]
-批量修改文件名称
+> 部分修改后效果
+
+![image](https://github.com/user-attachments/assets/9aa013ff-2881-458f-9de2-b74bdab807ac)
+
+![image](https://github.com/user-attachments/assets/276e3dcf-205f-445d-9f34-d1fbbf69a5fb)
+
+### 批量修改文件名称
 完成文档处理后，为方便合并、汇总数据，这里选择批量修改文件名称
-参考文档
+> 参考文档
 https://blog.csdn.net/Yao_June/article/details/92416562
+```python
 # 用于修改文件名称，可以作为模板保存并根据需要修改
 import os
 
@@ -102,22 +112,31 @@ for filename in os.listdir(path):
         # 拼接.xlsx后缀，生成完整文件名
         os.rename(os.path.join(path,t + filename_extenstion),os.path.join(path,new_filename[count] + filename_extenstion))
         count += 1
+```
+
 splitext 是 Python 中 os.path 模块提供的一个函数，用于将文件路径分割成文件名和扩展名两部分。具体来说，os.path.splitext(path) 返回一个元组，包含路径 path 的文件名和扩展名两部分。
 上面代码中：
 os.path.splitext(filename)[0]返回文件名
 os.path.splitext(filename)[1]返回拓展名
 https://blog.csdn.net/qq_45058745/article/details/131611308
+
 os.rename()方法语法格式如下：os.rename(src, dst)
 参数解释
 - src – 要修改的目录名
 - dst – 修改后的目录名
 https://blog.csdn.net/wowocpp/article/details/79460407
-运行前
-[图片]
-运行后
-[图片]
-合并
-参考了数据分析项目（旅游行业数据分析）的方式对文件进行合并，从整体层面了解数据集情况
+
+_运行前_
+
+![image](https://github.com/user-attachments/assets/29ad06db-af14-47d7-922d-42bbc365c42d)
+
+_运行后_
+
+![image](https://github.com/user-attachments/assets/a015368f-c16e-4c6b-9eed-c9dea90273e8)
+
+### 合并
+参考了[数据分析项目（旅游行业数据分析）](https://github.com/Hyh996/data_analyse/tree/main/%E6%97%85%E6%B8%B8%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90)的方式对文件进行合并，从整体层面了解数据集情况
+```python
 import pandas as pd
 
 # 合并数据文件（简单粗暴的合并）
@@ -131,183 +150,203 @@ print(result)
 
 # 保存清洗后的数据 csv
 result.to_csv(r'对应路径\城市人口分析与预测数据汇总.csv', index=False)
+```
 这里在简单合并后就输出看一下整体表格
-[图片]
+
+![image](https://github.com/user-attachments/assets/bb0c23fb-8fea-4232-bfd2-3edcd2da458c)
+
 不过参考题目要求“给定多个城市近几年的人口数据，包括年龄、职业、收入等特征，分析每个城市的特点和规律”可以先不做处理分析各个城市的特征
+
 通过观察发现年龄结构数据只有2000、2010、2020三年时间的数据，存在大量数据缺失，此外2000年与2022年数据同样存在大量缺失，而生活水平数据从2011年开始
-[图片]
+
+![image](https://github.com/user-attachments/assets/b91ee607-b658-44bc-ab16-c7f3f3c52b67)
+
 
 ---
-各城市分析（数据观察）
+# 各城市分析（数据观察）
 粗略分析各个城市的特征
-字段说明
-直接整理自题目要求中的截图
-文件名
-文件内容
-字段
-人口规模.xlsx
-城市人口规模信息
-pr_Population -- 常住人口规模
- 
- 
-r_Population -- 户籍人口规模
-城镇化率.xlsx
-城市的城镇化率
-urbanizationRate -- 城镇化率
-年龄结构.xlsx
-城市人口的年龄结构
-0-14 -- 0-14 岁人口规模
- 
- 
-15-64 -- 城市15-64岁人口规模
- 
- 
-65+ -- 城市65岁及以上人口规模
-人口密度.xlsx
-城市的人口密度
-populationDensity -- 人口密度
-就业信息.xlsx
-城市的就业情况
-unemploymentRate -- 失业率
- 
- 
-employeesNumber -- 从业人员数
- 
- 
-newlyEmployedPeople -- 城镇新增就业人员数
- 
- 
-threeIndustriesEmployed -- 三次产业就业人员数
-工资水平.xlsx
-城市就业人员的工资水平
-averageWage -- 职工平均工资
- 
- 
-umpu_averageWage -- 城镇非私营单位平均工资
-人民生活水平.xlsx
-城市人民生活水平指标
-disposableIcome -- 人均可支配收入
- 
- 
-consumptionExpenditures -- 人均消费支出
- 
- 
-towner_ConsumptionExpenditures-- 城镇居民消费支出
- 
- 
-rural_ConsumptionExpenditures --农村居民消费支出
- 
- 
-towner_disposableIcome -- 城镇居民人均可支配收入
- 
- 
-rural_disposableIcome -- 农村居民人均可支配收入
-具体分析
+## 字段说明
+> 直接整理自题目要求中的截图
+
+|文件名|文件内容|字段|
+|....|....|....|
+|人口规模.xlsx|城市人口规模信息|pr_Population -- 常住人口规模|
+|||r_Population -- 户籍人口规模|
+|城镇化率.xlsx|城市的城镇化率|urbanizationRate -- 城镇化率|
+|年龄结构.xlsx|城市人口的年龄结构|0-14 -- 0-14 岁人口规模|
+|||15-64 -- 城市15-64岁人口规模|
+|||65+ -- 城市65岁及以上人口规模|
+|人口密度.xlsx|城市的人口密度|populationDensity -- 人口密度|
+|就业信息.xlsx|城市的就业情况|unemploymentRate -- 失业率|
+|||employeesNumber -- 从业人员数|
+|||newlyEmployedPeople -- 城镇新增就业人员数|
+|||threeIndustriesEmployed -- 三次产业就业人员数|
+|工资水平.xlsx|城市就业人员的工资水平|averageWage -- 职工平均工资|
+|||umpu_averageWage -- 城镇非私营单位平均工资|
+|人民生活水平.xlsx|城市人民生活水平指标|disposableIcome -- 人均可支配收入|
+|||consumptionExpenditures -- 人均消费支出|
+|||towner_ConsumptionExpenditures-- 城镇居民消费支出|
+|||rural_ConsumptionExpenditures --农村居民消费支出|
+|||towner_disposableIcome -- 城镇居民人均可支配收入|
+|||rural_disposableIcome -- 农村居民人均可支配收入|
+
+## 具体分析
 为方便起见本处直接是直接将合并好的数据导入power BI来绘制图表并分析
-各城市城镇化率对比
-字段
-urbanizationRate -- 城镇化率
-字段设置
-[图片]
-得出各城市城镇化率折线图
-[图片]
+### 各城市城镇化率对比
+
+|字段|
+|....|
+|urbanizationRate -- 城镇化率|
+
+_字段设置_
+
+![image](https://github.com/user-attachments/assets/f049f9b7-bb8b-4de0-87b0-8bb3abba1e4e)
+
+得出 _各城市城镇化率折线图_
+
+![image](https://github.com/user-attachments/assets/ad428c17-2ec5-4957-bfe0-d05abe6e8f3c)
+
 城市25、31、33城镇化率高，但城市25和33有骤降现象，后续分析可能要关注一下以便分析原因，城市35和9城镇化率低
 后面的设置基本一致，都是年份放X轴，城市名称放图例，如何根据要看的标签放Y轴
-各城市工资水平对比
-字段
 
-averageWage -- 职工平均工资
-umpu_averageWage -- 城镇非私营单位平均工资
-（这个字段A题好像没有，先跳过）
-职工平均工资折线图
-[图片]
+### 各城市工资水平对比
+|字段||
+|....|....|
+|averageWage -- 职工平均工资|umpu_averageWage -- 城镇非私营单位平均工资|
+
+_职工平均工资折线图_
+
+![image](https://github.com/user-attachments/assets/1689e060-47c0-4dbc-9358-3b9e07829f35)
+
 城市25和城市33职工平均工资高，其他城市都差不多，总体而言各个城市是职工平均工资维持在逐年上涨的趋势中
 
-各城市就业信息对比
-字段
+### 各城市就业信息对比
 
-unemploymentRate -- 失业率
-newlyEmployedPeople -- 城镇新增就业人员数
-（同上没有找到）
-employeesNumber -- 从业人员数
-threeIndustriesEmployed -- 三次产业就业人员数
-失业率柱状图
-[图片]
+|字段||
+|....|....|
+|unemploymentRate -- 失业率|newlyEmployedPeople -- 城镇新增就业人员数|
+|employeesNumber -- 从业人员数|threeIndustriesEmployed -- 三次产业就业人员数|
+
+_失业率柱状图_
+
+![image](https://github.com/user-attachments/assets/134bf9d6-dac5-47fd-be13-bcec3daee569)
+
 通过与绘制图表的交互，城市31和城市25失业率较大，城市31失业率最高在2002年甚至高达12%，不过随着时间发展失业率都逐年降低，最终稳定在4%以下
-从业人员数折线图
-[图片]
+_从业人员数折线图_
+
+![image](https://github.com/user-attachments/assets/cb665bc3-9b20-4b50-84ad-2f86d6189f30)
+
 城市3和城市17保持逐年上涨的趋势，而城市32和城市25在2020年却出现骤降，其他则维持在一个较为稳定的状态
 
-第一产业就业人员数丝带图
-[图片]
+_第一产业就业人员数丝带图_
+
+![image](https://github.com/user-attachments/assets/62cab6c8-b0a1-4963-ad5a-7cb074c30d3e)
+
 城市15第一产业就业人员数变化波动大，城市35第一产业就业人员数则基本保持在第一；2007-2009年期间总体而言各个城市占比都有所下降，但城市9在该段时间内占比有明显上升，在2009后又不断下降
-第二产业就业人员数丝带图
-[图片]
+
+_第二产业就业人员数丝带图_
+
+![image](https://github.com/user-attachments/assets/87cc5d14-0409-41a4-aa90-a9467cd5919f)
+
 城市33、25、3、5四个最高，尽管其中2012、2015、2020年城市33和城市25的总量有所变化，但总体来看城市33第二产业就业人数最多
-第三产业就业人员数丝带图
-[图片]
+
+_第三产业就业人员数丝带图_
+
+![image](https://github.com/user-attachments/assets/7097edd4-d0e1-4ff3-859b-80b729bf78c7)
+
 总体来看，第三产业的就业人数是不断增多的，其中城市3和17发展迅速，分别在2014、2015年陆续超越原来的第三产业就业人员数第一城市33成为第一第二
+
 基于以上产业就业人员数丝带图，城市35第一产业可能比较发达，城市25和城市5第二产业比较突出，城市17第三产业发展迅速，城市3和城市33二、三产业都有所兼顾
-各城市年龄结构对比
-字段
-15-64 -- 城市15-64岁人口规模
-0-14 -- 0-14 岁人口规模
-65+ -- 城市65岁及以上人口规模
-各城市年龄结构树状图
-[图片]
+
+### 各城市年龄结构对比
+|字段|15-64 -- 城市15-64岁人口规模|
+|....|....|
+|0-14 -- 0-14 岁人口规模|65+ -- 城市65岁及以上人口规模|
+
+_各城市年龄结构树状图_
+
+![image](https://github.com/user-attachments/assets/37e4cf19-044d-4a19-b965-42dec7f9a775)
+
 通过对图表的观察可以了解到基本所有城市都是15-64岁人口最多，其中大部分城市65+与0-14岁人口规模数量相近，同时通过图表可以了解到城市33、17、25、3都是人口规模较大的城市。此外，进一步观察还发现靠近左下侧的城市3、6、24中0-14岁人口规模相对大于65+，人口结构相对年轻化
-各城市人口规模对比
-字段
 
-pr_Population -- 常住人口规模
-r_Population -- 户籍人口规模
-常住人口&户籍人口折线图
-[图片]
+### 各城市人口规模对比
+
+|字段||
+|....|....|
+|pr_Population -- 常住人口规模|r_Population -- 户籍人口规模|
+
+_常住人口&户籍人口折线图_
+
+![image](https://github.com/user-attachments/assets/d8fe7d77-e4e9-48b5-b4d5-b54db00f074f)
+
 常住人口与户籍人口基本保持相近变化趋势，值得注意的是通过数据观察可以发现人口规模在2006年又明显断层，可能是许多城市数据的缺失，后续可能要对该部分进行处理避免影响模型。此外，2002年城市31有较为突兀的波动，如果后续模型预测效果不理想可能要将其考虑为异常值进行处理
-各城市人口密度对比
-字段
-populationDensity -- 人口密度
-人口密度堆积面积图
-[图片]
-通过图表观察，人口密度总体呈上升趋势，说明人口密度随时间不断增大。其中，城市3的堆积面积最大，在众多城市中人口密度最大
-各城市生活水平对比
-字段
 
-disposableIcome -- 人均可支配收入
-rural_ConsumptionExpenditures --农村居民消费支出
-consumptionExpenditures -- 人均消费支出
-towner_disposableIcome -- 城镇居民人均可支配收入
-towner_ConsumptionExpenditures-- 城镇居民消费支出
-rural_disposableIcome -- 农村居民人均可支配收入
-人均可支配收入&人均消费支出折线图
-[图片]
-使用筛选器剔除城市21后
-[图片]
+### 各城市人口密度对比
+
+|字段|
+|....|
+|populationDensity -- 人口密度|
+
+_人口密度堆积面积图_
+
+![image](https://github.com/user-attachments/assets/e5e6bf18-8b07-4026-aaad-dac718717330)
+
+通过图表观察，人口密度总体呈上升趋势，说明人口密度随时间不断增大。其中，城市3的堆积面积最大，在众多城市中人口密度最大
+
+### 各城市生活水平对比
+|字段||
+|....|....|
+|disposableIcome -- 人均可支配收入|rural_ConsumptionExpenditures --农村居民消费支出|
+|consumptionExpenditures -- 人均消费支出|towner_disposableIcome -- 城镇居民人均可支配收入|
+|towner_ConsumptionExpenditures-- 城镇居民消费支出|rural_disposableIcome -- 农村居民人均可支配收入|
+
+_人均可支配收入&人均消费支出折线图_
+
+![image](https://github.com/user-attachments/assets/5f772d11-9d96-48d4-938d-820db8a64140)
+
 人均可支配收入折线图中除城市25和城市33基本都保持上升趋势，而城市25和城市33在20年人均可支配收入下降明显。人均消费支出折线图中，大部分城市人均消费基本维持在一定水平，但城市21在2021年有突兀上升，需要进一步验证是否是异常值导致
+
+_使用筛选器剔除城市21后_
+
+![image](https://github.com/user-attachments/assets/8b437e04-159e-449c-b034-a096bda5cbbe)
+
+
 人均消费支出折线图在去除城市21后变化趋势与人均可支配收入折线图基本一致，人均消费支出同样除城市25和城市33保持上升趋势，可以确定城市21中2022的值比较极端，对图表影响大
-城乡人均可支配收入&人均消费支出对比
-上方两张图对应人均可支配收入，下方两张图对应人均消费支出。左边为城市，右边为农村
-[图片]
+
+_城乡人均可支配收入&人均消费支出对比_
+> 上方两张图对应人均可支配收入，下方两张图对应人均消费支出。左边为城市，右边为农村
+
+![image](https://github.com/user-attachments/assets/d7c6cf38-8a6e-4370-ba7c-143bda3255a5)
+
 通过观察总体上无论消费还是可支配收入都呈上升趋势，其中城市25同样突出，在2020年有明显变化，结合前面分析，可以判断城市25是一个城镇化程度高并且收入较高的城市，第二产业就业人数多，工业较发达，同时其人均可支配收入与人均消费支出与工资水平变动基本一致
-报告
-就直接用上面的内容偷懒做了一份简单的报告
-[图片]
-[图片]
-[图片]
-[图片]
+
+## 报告
+>就直接用上面的内容偷懒做了一份简单的报告
+
+![image](https://github.com/user-attachments/assets/9dab30ec-779e-4e06-a06b-af93d47de4ef)
+
+![image](https://github.com/user-attachments/assets/7de54bb4-362c-4892-ab84-b1b99d528970)
+
+![image](https://github.com/user-attachments/assets/ff67b9f3-369d-47e9-ba9a-c64de4415886)
+
+![image](https://github.com/user-attachments/assets/80f4f63b-721e-4540-9e75-3b9225bd644c)
+
 
 ---
-建模预测
-开始预测前有必要厘清要预测的内容
-总人口的基本定义
+# 建模预测
+> 开始预测前有必要厘清要预测的内容
+
+__总人口的基本定义__
 - 统计意义上的总人口，又称人口总数，是指一定时点、一定地域范围内所有的有生命活动的个人的总和。它不分性别，不分年龄，不分民族，只要是有独立的生命活动就包含在人口总数之内。总人口是人口统计中最基本的指标，是计算人口构成和人口再生产诸多指标的基础，也是反映一个国家人口资源的重要指标。
 - 总人口通常使用常住人口的口径。常住人口为国际上进行人口普查和人口调查时常用的统计口径之一，是指经常居住在某一地区的人口。目前在中国，常住人口是指实际经常居住在某地区半年以上的人口。主要包括：居住在本乡镇街道且户口在本乡镇街道或户口待定的人；居住在本乡镇街道且离开户口登记地所在的乡镇街道半年以上的人；户口在本乡镇街道且外出不满半年或在境外工作学习的人。
 - 总人口随人口的出生、死亡、迁入、迁出的变动而变动。中国总人口的变动主要来源于人口的自然变动，通常用人口自然增长率来反映。人口自然增长率是指一年内人口自然增长数与年平均总人数之比，通常用千分数表示。它是用于说明人口自然增长的水平和速度的综合性指标。
 - 人口自然增长率＝人口出生率－人口死亡率
 ——国家统计局
-预处理
+
+## 预处理
 筛选和城市人口直接相关的常住人口处理并保存，用于初步直接预测
-总人口通常使用常住人口的口径，由此适合将常住人口拿来先构建一个简单的模型直接预测
+> 总人口通常使用常住人口的口径，由此适合将常住人口拿来先构建一个简单的模型直接预测
+```python
 import pandas as pd
 # 筛选和城市人口直接相关的数据处理并保存，用于初步直接预测
 df = pd.read_csv(r'对应路径\城市人口分析与预测汇总.csv')
@@ -329,8 +368,10 @@ result['城市名称'] = result['城市名称'].map(city_mapping)
 print(result)
 # 输出csv
 result.to_csv(r'对应路径\城市人口分析与预测常住人口数据.csv', index=False)
-关于该部分预处理内容可以翻看笔记数据预处理（1.4），有更详尽的说明
+```
+关于该部分预处理内容可以翻看笔记[数据预处理](https://github.com/Hyh996/data_analyse/blob/main/%E7%9B%B8%E5%85%B3%E6%95%B4%E7%90%86/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/README.md)，有更详尽的说明
 筛选数据完整度最高的2015-2021年剔除年龄结构数据处理并保存，用于构建特征工程后再预测
+```python
 import pandas as pd
 # 筛选数据完整度最高的2015-2021年剔除年龄结构数据处理并保存，用于构建特征工程后再预测
 # 筛选数据完整度最高的2015-2021年
@@ -358,11 +399,13 @@ result['城市名称'] = result['城市名称'].map(city_mapping)
 print(result)
 # 输出csv
 result.to_csv(r'对应路径\2015-2021年人口规模预测数据集.csv', index=False)
+```
 这个部分本来是考虑搭建特征工程或引入外部变量可能会用到所以写的，但实际上并没有完成特征工程的搭建，也就没有用到
 
 ---
-初步直接预测
-完整代码
+## 初步直接预测
+### 完整代码
+```python
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.stattools import adfuller
@@ -470,12 +513,15 @@ df.info()
 print(df)
 # # 导出
 df.to_csv(r'对应路径\submission.csv', index=False)
-拆解
-代码参考
-虽然已经改的面目全非，不过确实是基于这一篇文章为基础写的代码
+```
+### 拆解
+#### 代码参考
+> 虽然已经改的面目全非，不过确实是基于这一篇文章为基础写的代码
 https://blog.csdn.net/bigorsmallorlarge/article/details/141860662
-前期准备
-导入要用或可能要用的库，如何就是要处理绘图的字体问题（后面有设计绘图内容），还有导入数据
+
+#### 前期准备
+> 导入要用或可能要用的库，如何就是要处理绘图的字体问题（后面有设计绘图内容），还有导入数据
+```python
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.stattools import adfuller
@@ -496,6 +542,7 @@ plt.rcParams['axes.unicode_minus'] = False
 data = pd.read_csv(r'对应路径\城市人口分析与预测常住人口数据.csv')
 # 创建列表（方便后续结果写入）
 data_to_append = []
+```
 这里多加了一个忽略报错的功能主要是在后面模型预测那里有不影响代码运行的报错，无关紧要的报错有点影响结果的输出，就干脆在这里设置了一个忽略
 https://blog.csdn.net/low5252/article/details/109334695
 warnings.filterwarnings(action, message='', category=Warning, module='', lineno=0, append=False)
