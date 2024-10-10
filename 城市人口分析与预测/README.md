@@ -1,10 +1,10 @@
 # 数据分析项目（城市人口分析与预测）
 
-__数据来源：__CCF大数据与计算智能大赛2023年赛题数据集
+__数据来源：__ CCF大数据与计算智能大赛2023年赛题数据集
 网盘链接：https://pan.baidu.com/s/1j6th-e5McM3zgAV8zAM2dQ?pwd=es2y
 > 做一次赛题练一练，看看最近数据挖掘学的怎么样，看看还有哪些不足
 
-分析思路
+## 分析思路
 
 ![image](https://github.com/user-attachments/assets/0294aa57-1b4a-4268-b639-a14ddefe8ef6)
 
