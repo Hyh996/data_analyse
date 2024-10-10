@@ -728,8 +728,8 @@ print(df)
 # 导出
 df.to_csv(r'对应路径\submission.csv', index=False)
 ```
-_部分截图_
-|||
+
+|_部分截图_||
 |----|----|
 ![image](https://github.com/user-attachments/assets/6b889af0-d90e-4221-9513-7d6e7c83e80b) | ![image](https://github.com/user-attachments/assets/2f34baca-c5e3-45af-a90e-06c2eb7ab2cd)
 
@@ -854,6 +854,7 @@ for t in range(len(population_series) - 1):
 print(f'2023年预测值: {forecast.iloc[0]}')
 ```
 |初步预测版输出|修改后输出|
+|----|----|
 ![image](https://github.com/user-attachments/assets/50eb49ed-7c32-4da1-9ff2-bb85ab5a5b8c) | ![image](https://github.com/user-attachments/assets/8e299e33-9924-4bfa-9765-e06421d66460)
 
 改动之后好像还是没有改善，动态预测和原先静态预测效果一样，暂时不确定这么改动有没有问题先放在这里。滚动预测就先不纳入模型的优化中
