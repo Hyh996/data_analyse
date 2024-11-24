@@ -11,8 +11,8 @@ http://econometrics-stata.com/
 此外，特别注意代码块中代码中夹杂的中文是为了方便理解，比如其中的被解释变量就是对应模型的被解释变量，而表示代码就写被解释变量
 
 ---
-1. 基础指令
-1.1 打开文件
+# 1. 基础指令
+## 1.1 打开文件
 ```stata
 ues 对应路径,clear
 ```
@@ -26,7 +26,7 @@ sysues 对应路径 //列出自带数据的目录
 //这里以auto数据集为例，auto.dta是1978年在美国销售的74个车牌号的汽车的技术参数和价格等数据。
 sysuse auto
 ```
-1.2 变量管理
+## 1.2 变量管理
 
 ![image](https://github.com/user-attachments/assets/7482e2ba-4e79-49b5-9151-c7ff0bfcfd6c)
 
@@ -36,7 +36,7 @@ sysuse auto
 
 **注意严格区分大小写！！！**
 
-1.2.1 生成新变量
+### 1.2.1 生成新变量
 使用gen(也可以简写为g)生成新变量，感觉与python中的赋值差不多意思
 ```stata
 gen x=log(price)
@@ -47,12 +47,14 @@ gen x=log(price)
 2. 减少斜率变化速率：对于具有非常宽范围的数据，取对数可以缩小数值范围，使得模型的斜率变化更加平滑，减小误差。
 3. 提高模型稳定性：在一些情况下，数据可能存在异常值或极端值，通过取对数可以减少这些异常值对回归模型的影响，提高模型的稳定性。
 ```
-1.2.2 变量重命名
+
+### 1.2.2 变量重命名
 使用rename可以重命名
 ```stata
 rename 原名称 新名称
 ```
-1.3 审视数据
+
+## 1.3 审视数据
 ```stata
 //查看数据集中的变量名称、标签等
 describe
@@ -81,7 +83,7 @@ set more on
 |![image](https://github.com/user-attachments/assets/1a24094c-92b1-4b58-8e0c-6ad5f9c07ebf)|![image](https://github.com/user-attachments/assets/6be6ad4a-d86b-4243-9bc6-64b0e8a9bc62)|![image](https://github.com/user-attachments/assets/578ab018-3b6b-45ad-aa4b-4a64a9a452c6)|
 
 
-1.4 删除
+## 1.4 删除
 ```stata
 //删除满足条件的部分数据
 drop if 条件
@@ -89,7 +91,7 @@ drop if 条件
 keep if 条件
 ```
 **注意：在stata中删除数据要慎重，数据一旦删除则不能恢复**
-1.5 排序
+## 1.5 排序
 升序（按照提供的变量名排序）
 ```stata
 sort 变量名
@@ -98,7 +100,7 @@ sort 变量名
 ```stata
 gsort -变量名
 ```
-1.6 画图
+## 1.6 画图
 ||||
 |----|----|----|
 |直方图：histogram|分位数图：quantile|标准化正态概率图：pnorm|
@@ -147,7 +149,7 @@ title(散点图) s(d)
 
 https://blog.csdn.net/Ptrose/article/details/126998179
 
-1.7 帮助
+## 1.7 帮助
 > 通过帮助可以了解想要使用的命令的更多情况
 ```stata
 //如想要对了解关于graph的使用方法
@@ -155,24 +157,24 @@ help graph
 ```
 通过help command_name还可以直接查看帮助文档
 
-1.8 统计分析
-1.8.1 特征统计
+## 1.8 统计分析
+### 1.8.1 特征统计
 使用sum查看变量的特征统计，可以简写为su。分别表示样本容量，平均值，标准差，最小值，最大值
 
 ![image](https://github.com/user-attachments/assets/76568f25-6f91-4474-9dcd-d24c3349404f)
 
-1.8.2 经验积累分布函数
+### 1.8.2 经验积累分布函数
 通过tabulate（可以简写为ta）查看经验累积分布函数，分布表示频数，百分比，累积百分比
 
 ![image](https://github.com/user-attachments/assets/55e16adf-fe05-4173-bfef-f9d5077158db)
 
-1.8.3 相关关系
+### 1.8.3 相关关系
 - pwcorr”表示“pairwise correlation”(两两相关)
 - “sig表示显示相关系数的显著性水平(即p值，列在相关系数的下方)。
 - star(.05)”表示给所有显著性水平小于或等于 5%的相关系数打上星号。
 
 
-1.9 输出结果
+## 1.9 输出结果
 一、安装外部包
 在Stata内安装外部包：estout和logout
 ```stata
@@ -205,7 +207,7 @@ esttab using reg.rtf, r2 ar2 se replace nogap
 
 https://blog.csdn.net/Hyouka_x/article/details/123456755
 
-1.10 其他
+## 1.10 其他
 |名称|作用|用法|
 |display|stata内部计算器|display 计算公式，可以通过return list查看r类命令（e类命令估计类命令以外的其他命令）的计算结果（e类命令则可以通过ereturn list显示）|
 |log|stata日志|- log using 日志名称生成一个对应的.smcl日志文件 - log off暂时关闭日志(不再记录输出结果) - log on恢复使用日志 - log close彻底退出日志|
@@ -214,8 +216,8 @@ https://blog.csdn.net/Hyouka_x/article/details/123456755
 |set|增加记录|set obs 30确定随机抽样的样本容量为30（增加30条空白记录） set seed 10101指定随机抽样的“种子”为10101|
 
 ---
-2. 回归
-2.1 一元回归
+# 2. 回归
+## 2.1 一元回归
 使用regress命令进行OLS最小二乘估计也就是回归（可简写为reg），使用时就是reg 变量名1 变量名2...
 ```stata
 reg price mpg
@@ -238,7 +240,8 @@ reg price mpg
 ![image](https://github.com/user-attachments/assets/14b07fb4-fa15-455d-8605-430dd4bffb40)
 
 - 加robust(可以简写为r)则可以得到OLS估计的稳健标准误（存在异方差的情况下使用）
-2.2 多元回归
+
+## 2.2 多元回归
 > 使用reg同理一元回归即可
 ```stata
 reg price mpg rep78 headroom trunk weight length turn displacement
@@ -264,14 +267,14 @@ reg price mpg rep78 headroom trunk weight length turn displacement if foreign
 - 使用_b[变量名称]可以调用系数的估计值，比如_b[mpg]可以调用变量mpg的估计系数25.7947
 - 可以使用test进行检验变量系数
 
-2.3 虚拟变量
+## 2.3 虚拟变量
 以下三张关于虚拟变量讲述的截图截取自陈强老师的课程视频
 ||||
 |----|----|----|
 |![image](https://github.com/user-attachments/assets/c4d76c91-f612-4a95-b9ae-3959788a56ef)|![image](https://github.com/user-attachments/assets/3bf24851-e4aa-4776-a0d3-58b740b66d50)|![image](https://github.com/user-attachments/assets/8ad4bdea-3907-467a-a6d4-98fa3adcb120)|
 
 
-2.4 二值选择模型
+## 2.4 二值选择模型
 > 二值选择模型主要是针对是或否、国内或国外、儿童或成人，类似这样的0或1数据类型的数据，由于调查问卷此种类型数据较多，可能多用于分析问卷调查数据
 
 回归前可以先查看变量的统计特征，观察01数据的统计特征比较特殊就单独拿出来
@@ -285,7 +288,8 @@ sum [fweight=freq]
 //比如有这样一组数据，考试成绩，里面的内容是合格与不合格，想要具体合格率可以这样写
 sum 考试成绩 if 合格 [fweight=freq]
 ```
-2.4.1 二值模型的stata命令
+
+### 2.4.1 二值模型的stata命令
 ```stata
 //probit模型
 probit ,r
@@ -293,7 +297,8 @@ probit ,r
 logit ,r or
 ```
 or表示显示几率比，不显示回归系数
-2.4.2 预测/计算准确的百分比
+
+### 2.4.2 预测/计算准确的百分比
 - 完成probit或logit估计后，可以进行预测，或计算准确的百分比
 ```stata
 //计算发生概率的预测值并记为y1
@@ -301,7 +306,8 @@ predict y1
 //计算准确预测的百分比，clas表示创建类别变量
 estat clas
 ```
-2.4.3 计算边际效应
+
+### 2.4.3 计算边际效应
 - 完成估计后，可计算边际效应
 ```stata
 //计算所有解释变量的平均边际效应；“*”表示所有解释变量
@@ -319,7 +325,8 @@ margins,eydx(*)
 //计算平均半弹性，x变化1% 引起y变化几个单位
 margins,dyex(*)
 ```
-2.5 面板模型
+
+## 2.5 面板模型
 > 面板模型顾名思义就是对面板数据进行回归的模型
 
 面板数据特征如下：
@@ -328,7 +335,7 @@ margins,dyex(*)
 |![image](https://github.com/user-attachments/assets/31dc4e51-bca4-4d19-ba14-2ddd89ab17f1)|![image](https://github.com/user-attachments/assets/5a1b3b8e-631a-4ce7-8007-0c7e2175fed2)|
 *——截取自陈强老师计量经济学课件*
 
-2.5.1 面板数据设定
+### 2.5.1 面板数据设定
 ```stata
 xtset panelvar timevar
 ```
@@ -352,14 +359,15 @@ xtsum
 //对每个个体分别显示该变量的时间序列图
 xtline 变量名   //如果想要将所有个体的时间序列图叠放，可以在后面加上overlay
 ```
-2.5.2 混合回归
+### 2.5.2 混合回归
 ```stata
 reg 被解释变量 解释变量,vce(cluster 面板变量)
 //将结果储存并记为OLS
 estimates store OLS
 ```
 vce(cluster 面板变量)表示使用对应的面板变量来计算聚类的稳健标准误
-2.5.3 固定效应
+
+### 2.5.3 固定效应
 ```stata
 //固定效应模型（组内估计量）
 xtreg 被解释变量 解释变量,fe
@@ -402,7 +410,8 @@ estimates store FE_TW
 ```stata
 test year2 year3 ...
 ```
-2.5.4 随机效应
+
+### 2.5.4 随机效应
 个体效应还可能以随机效应(RE)的形式存在
 ```stata
 //随机效应估计的 Stata 命令为
@@ -429,7 +438,8 @@ ssc install xtoverid
 //稳健的豪斯曼检验
 xtoverid
 ```
-2.5.5 组间估计量
+
+### 2.5.5 组间估计量
 ```stata
 xtreg 被解释变量 解释变量,be
 ```
@@ -440,8 +450,8 @@ xtreg 被解释变量 解释变量,be
 ```stata
 esttab OLS FE_robust FE_trend FE RE,b se mtitle
 ```
-2.6 时间序列
-2.6.1 定义时间变量
+## 2.6 时间序列
+### 2.6.1 定义时间变量
 ```stata
 tsset 时间对应变量名  //一般是tsset year
 ```
@@ -471,13 +481,14 @@ gen newvar=quarterly(varname,"YQ")
 format newvar %tq
 ```
 其中，"YM"表示“年-月”格式，"YQ"表示“年-季”格式；%tm中的m即表示“month”；%tq中的q即表示“quarter’
-2.6.2 观察时间趋势
+
+### 2.6.2 观察时间趋势
 ```stata
 tsline 变量,xlabel(1980(10)2010)
 ```
 其中，tsline表示绘制时间趋势图，在此等价于命令1ine 变量 year(year 为时间变量)。xlabel(1980(10)2010)表示在横轴 1980-2010 期间，每隔 10年做个标注(1abel)，在需要时可以通过g计算生成新变量后再绘制
 
-2.6.3 进一步考察
+### 2.6.3 进一步考察
 考察自相关系数使用命令corrgram 变量，corrgram就表示绘制自相关图
 使用画自相关图的另一命令：
 ```stata
@@ -489,7 +500,7 @@ ac 变量,lags(20)
 
 以截取自课程视频的上图为例，超出灰色范围的点表示对应该点的阶数自相关系数显著为零
 
-2.6.4 自回归
+### 2.6.4 自回归
 自回归本质上就是被解释变量和解释变量都是同一个变量，可以用于预测、估计
 ```stata
 //如仅使用2013年前数据预测2013的数据，假设要预测的变量为y取对数，时间变量为year
@@ -508,7 +519,8 @@ dis y[36]-exp(lny[35]+dlny1[36])
 由于时使用的了取对数的方式取进行回归，所以需要通过exp()再次计算才能得出真正的估计值
 lny[35]表示变量 lny 的第 35 个观测值(即 2012 年)
 dlny1[36]表示变量 dlnyl 的第 36个观测值(即 2013年)
-2.6.5 确认滞后阶数
+
+### 2.6.5 确认滞后阶数
 实践中可以通过先确认一个较大的滞后阶数然后不断减小来不断进行T检验确认，或者使用信息准则，取AIC和BIC最小的对应阶数
 使用信息准则确认：
 ```stata
@@ -518,7 +530,7 @@ estat ic
 得出AIC与BIC结果后再进行滞后操作进行回归然后再使用estat ic得出AIC与BIC结果，以此类推多重复几次操作然后进行对比确认滞后阶数
 > 需要注意的是，有时候不止一个变量存在滞后问题，由此基于一定理论建立的模型往往可以节省较多时间
 
-2.6.6 VAR向量自回归
+### 2.6.6 VAR向量自回归
 > 在需要研究多个变量自回归时会需要使用VAR模型
 
 在设定 VAR 模型时，应根据经济理论确定哪些变量在 VAR 模型中：
@@ -583,10 +595,10 @@ fcast graph varlist,observed
 其中varlist就是要画图的各个变量选择项observed表示与实际观测值相比较。
 
 ---
-3. 检验
-3.1 异方差
-3.1.1 异方差检验
-3.1.1.1 绘制残差图
+# 3. 检验
+## 3.1 异方差
+### 3.1.1 异方差检验
+#### 3.1.1.1 绘制残差图
 使用rvfplot命令绘制残差图，直接使用命令是绘制残差与拟合值的散点图，rvfplot 变量名的方式则是绘制残差与对应变量的散点图
 以多元回归回归结果为例，直接使用rvfplot命令绘制残差图如下：
 
@@ -604,7 +616,7 @@ https://www.sohu.com/a/406703172_120233365
 
 ![image](https://github.com/user-attachments/assets/33a9598d-1707-4eae-99a8-be6996eba0d7)
 
-3.1.1.2 BP检验
+#### 3.1.1.2 BP检验
 在stata中完成回归后使用estat hettest,iid rhs进行BP检验
 其中estat指post-estimation statistics估计后统计量（完成估计后所计算的后续统计量），hettest表示heteroskedasticity异方差性，iid表示仅假定数据为iid，而无需正态假定，rhs表示使用方程右边全部解释变量进行辅助回归（默认使用被解释变量的拟合值进行辅助回归）。
 如果想要指定使用某些解释变量进行辅助回归，则可以使用命令estat hettest [varlist],iid。其中的[varlist]为指定的变量清单，也就是estat hettest 变量1 变量2...,iid
@@ -619,7 +631,7 @@ BP检验最好做三步：
 - 使用所有解释变量进行BP检验：estat hettest,iid rhs
 - 使用某一变量（最关键的那几个解释变量）进行BP检验：estat hettest 变量名,iid
 
-3.1.1.3 怀特检验
+#### 3.1.1.3 怀特检验
 在stata中完成回归后使用estat imtest,white进行怀特检验
 其中imtest指information matrix test（信息矩阵检验）
 还是以多元回归回归结果为例
@@ -628,8 +640,8 @@ BP检验最好做三步：
 
 与BP检验相同，主要就是关注Prob > chi2（即P值），与BP检验是一样的。如果P值为0.0000则强烈拒绝同方差的原假设，认为存在异方差
 
-3.1.2 异方差处理
-3.1.2.1 WLS加权最小二乘法
+### 3.1.2 异方差处理
+#### 3.1.2.1 WLS加权最小二乘法
 得到扰动项方差估计值后，可以将其作为权重进行WLS估计
 ```stata
 //首先计算残差并记为e1
@@ -652,9 +664,9 @@ reg price mpg rep78 headroom trunk weight length turn displacement [aw=1/e2f]
 ```
 一元回归结果怎么看WLS回归结果就怎么看，需要注意的就是如果数据中存在明显异方差，使用WLS后可以提高估计效率，如果还担心条件方差函数设定不准确导致加权后的新扰动项仍有异方差的话，可以加,r使用稳健标准误再次进行WLS估计（无论是否使用稳健标准误，WLS的回归系数都相同，但标准误有所不同）
 
-3.2 自相关
-3.2.1 自相关检验
-3.2.1.1 画图
+## 3.2 自相关
+#### 3.2.1 自相关检验
+#### 3.2.1.1 画图
 完成回归后，将残差记为e1
 ```stata
 //绘制残差与其滞后的散点图
@@ -664,7 +676,7 @@ ac e1
 ```
 其中，ac表示autocorrelation（自相关）
 
-3.2.1.2 BG检验
+#### 3.2.1.2 BG检验
 ```stata
 estat bgodfrey,lags(p) nomiss0
 //以下为简写版:
@@ -672,7 +684,7 @@ estat bgo,l(p) nom0
 ```
 lags(p)中的p用于指定滞后阶数，默认是lags(1)，至于如何确定滞后结束主要是要通过自相关图ac e1，看落在95%置信区间以外的区域的自相关系数，也可以直接设一个较大的值然后不停回归并减小直到最后一个系数**从显著到不显著为止**，也就是看结果主要关注P值
 
-3.2.1.3 Q检验
+#### 3.2.1.3 Q检验
 ```stata
 //将OLS残差记为e1并进行Q检验
 wntestq e1,lags(p)
@@ -681,7 +693,7 @@ wntestq指white noise testQ，因为白噪声没有自相关；lags(p)指定滞�
 corrgram e1,lags(p)
 ```
 
-3.2.1.4 DW检验
+#### 3.2.1.4 DW检验
 ```stata
 //使用命令estat dwatson可以进行DW检验，可以简写为
 estat dwa
@@ -691,27 +703,27 @@ estat dwa
 |![image](https://github.com/user-attachments/assets/cb6c28fd-17bf-4282-ba50-f742ace1d723)|![image](https://github.com/user-attachments/assets/e4b50ff2-1bd6-4365-8f42-2bf8ed97f9db)|
 *——两张图都截自陈强老师教学视频*
 
-3.2.2 自相关处理
-3.2.2.1 使用“OLS+异方差自相关稳健的标准误”
+### 3.2.2 自相关处理
+#### 3.2.2.1 使用“OLS+异方差自相关稳健的标准误”
 > HAC稳健标准误，使用newey进行OLS估计并提供Newey-West标准误，同时通过lag(p)指定截断参数p，用于计算HAC标准误的最高滞后阶数
 ```stata
 newey 被解释变量 解释变量1 解释变量2...,lag(p)
 ```
 
-3.2.2.2 准差分法
+#### 3.2.2.2 准差分法
 ```stata
 prais 被解释变量 解释变量1 解释变量2...,corc
 ```
 corc表示使用CO估计法，默认PW估计法，在后面加一个nolog可以不显示迭代过程
 
-3.2.2.3 广义最小二乘法（GLS）
+#### 3.2.2.3 广义最小二乘法（GLS）
 ```stata
 xtgls 被解释变量 解释变量1 解释变量2..., options
 ```
 其中， options 可以包含多种选项，如指定模型的异方差性（heteroskedasticity）或自相关性（autocorrelation）。比如使用panel(het) 指定面板数据的异方差性，使用 corr(ar1) 指定一阶自相关性。或是fe 指定固定效应模型，re 指定随机效应模型。
 例如xtgls 被解释变量 解释变量1 解释变量2...,corr(ar1) fe
 
-3.3 对函数形式检验
+## 3.3 对函数形式检验
 在回归后进行RESET检验可以对线性模型进行检验确认是否遗漏高次项，也可以用来检验看是否应加入非线性项
 ```stata
 estat ovtest,rhs
@@ -719,7 +731,7 @@ estat ovtest,rhs
 ovtest表示omitted variable test被忽略变量测试，因为遗漏高次项后果类似于遗漏解释变量；rhs表示使用解释变量的幂为非线性项，默认使用被解释变量的二次方、三次方和四次方为非线性项
 > 看结果同样也是关注P值，比如为0.06则可以说明在5%的置信水平上接受“无遗漏变量”的原假设
 
-3.4 多重共线性检验
+## 3.4 多重共线性检验
 为了避免挑选出来的解释变量之间高度相关而影响回归结果，需要检验多重共线性以决定是否要剔除个别高度相关的变量
 ```stata
 estat vif
@@ -727,7 +739,7 @@ estat vif
 结果中vif值越大则多重共线性越明显，也就是VIF值越小越好，小于10则说明可以排除模型中存在多重共线性
 当然，如果构建模型有取平方项的变量则很容易导致出现多重共线性，可以通过标准化平方项来缓解
 
-3.5 极端值检验
+## 3.5 极端值检验
 在回归后通过predict lev,lev来检验数据集中是否存在极端值
 ```stata
 //注意要回归之后才能用，记所有观测数据的影响力为lev
@@ -738,7 +750,7 @@ dis r(max)/r(mean)
 ```
 如果最大值与平均值的比值较大的话说明差距大，则可能存在极端值，要考虑进行剔除，不过要注意详尽的说明，不能随意剔除
 
-3.6 工具变量法
+## 3.6 工具变量法
 工具变量法主要通过2SLS估计呈现ivregress 2sls 被解释变量 解释变量1 解释变量2... (工具变量=工具变量1 工具变量2),r first
 ```stata
 ivregress 2sls 被解释变量 外生解释变量1 外生解释变量2... (内生解释变量=工具变量1 工具变量2...),r first
@@ -746,14 +758,14 @@ ivregress 2sls 被解释变量 外生解释变量1 外生解释变量2... (内�
 - r表示使用异方差稳健的标准误
 - first表示显示第一阶段的回归结果
 
-3.6.1 弱工具变量检验
+### 3.6.1 弱工具变量检验
 完成2SLS估计后，可以通过estat firststage（可简写为estat first）检验弱工具变量
 在弱工具变量的情况下，LIML的小样本性质可能优于2SLS
 ```stata
 ivregress liml 被解释变量 外生解释变量1 外生解释变量2... (内生解释变量=工具变量1 工具变量2...)
 ```
 
-3.6.2 过度识别检验
+### 3.6.2 过度识别检验
 完成2SLS估计后，可以通过
 ```stata
 estat overid
@@ -762,7 +774,7 @@ estat overid
 弱工具变量检验和过度识别检验主要也都是看P值
 使用estat overid报错no overidentifying restrictions时表明是没有达到过度识别检验标准，可能是可用的工具变量正好识别或太少
 
-3.6.3 豪斯曼检验
+### 3.6.3 豪斯曼检验
 豪斯曼检验（Hausman Test）主要用于完成基本回归以后，检验解释变量是否内生
 ```stata
 //储存OLS结果并记为ols
@@ -775,13 +787,13 @@ hausman iv ols,constant sigmamore
 ```
 constant表示前面记录的两个估计中都包含常数项进去进行计算，sigmamore表示使用更有效率的估计量
 
-3.6.4 DWH检验
+### 3.6.4 DWH检验
 由于传统豪斯曼检验不适用于异方差情形，由此产生了适用于异方差情形的“杜宾-吴-豪斯曼检验”（Durbin-Wu-Hausman Test，简称DWH），在完成2SLS估计后使用命令:
 ```stata
 estat endogenous
 ```
 
-3.7 ADF单位根检验
+## 3.7 ADF单位根检验
 > ADF 检验也是左边单侧检验，其拒绝域只在分布的最左边。ADF 统计量的临界值也要通过蒙特卡罗模拟得到。ADF 统计量的临界值取决于真实模型(H)是否带漂移项，以及用于检验的回归方程是否含常数项或时间趋势。
 
 ADF 检验的 Stata 命令为：
