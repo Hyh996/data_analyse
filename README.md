@@ -4,7 +4,9 @@
 
 > 放置一些个人制作的数据分析项目以及一些整理的内容，也算是记录自己学习数据分析的流程，后续学习数据挖掘、机器学习、深度学习等内容时也会将个人整理资料分享至此
 
-
+整理分享的PDF资料：[我的分享
+链接：https://pan.baidu.com/s/1wnLNX0LsiAF32XG1zPz3TQ?pwd=bjhb 
+提取码：bjhb ](https://pan.baidu.com/s/1JHTzsCJYEXfI9JxGwkNZEA?pwd=bjhb)
 ___
 
 __以下为个人制作的一些实例项目：__
